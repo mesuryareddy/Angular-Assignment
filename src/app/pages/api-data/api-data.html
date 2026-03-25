@@ -1,0 +1,36 @@
+<div class="api-data-container">
+  <h1>Blogs</h1>
+  <p class="subtitle">Browse blog posts from public APIs with automatic local fallback</p>
+
+  <div *ngIf="loading" class="loading">
+    <p>Loading posts...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+    <button (click)="fetchPosts()" class="retry-btn">Retry</button>
+  </div>
+
+  <div *ngIf="!loading && !error">
+    <div class="posts-grid">
+      <div *ngFor="let post of posts" class="post-card" (click)="selectPost(post)">
+        <h3>{{ post.title }}</h3>
+        <p class="preview">{{ post.body | slice: 0:100 }}...</p>
+        <p class="post-id">Post ID: {{ post.id }} | User ID: {{ post.userId }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selectedPost" class="post-detail-modal">
+    <div class="modal-overlay" (click)="closeDetail()"></div>
+    <div class="modal-content">
+      <button class="close-btn" (click)="closeDetail()">✕</button>
+      <h2>{{ selectedPost.title }}</h2>
+      <div class="post-meta">
+        <span>Post ID: {{ selectedPost.id }}</span>
+        <span>User ID: {{ selectedPost.userId }}</span>
+      </div>
+      <p class="post-body">{{ selectedPost.body }}</p>
+    </div>
+  </div>
+</div>
